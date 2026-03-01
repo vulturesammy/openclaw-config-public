@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+"""DDG Search Script for OpenClaw"""
+import warnings
+import sys
+warnings.filterwarnings('ignore')
+
+from duckduckgo_search import DDGS
+
+def search(query, max_results=5):
+    try:
+        ddgs = DDGS()
+        results = ddgs.text(query, max_results=max_results)
+        for r in results:
+            print(f"Title: {r['title']}")
+            print(f"URL: {r['href']}")
+            print(f"Body: {r['body']}")
+            print('---')
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+
+if __name__ == "__main__":
+    query = sys.argv[1] if len(sys.argv) > 1 else "test"
+    max_results = int(sys.argv[2].replace('--max ', '')) if len(sys.argv) > 2 else 5
+    search(query, max_results)
